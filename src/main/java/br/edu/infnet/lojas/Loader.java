@@ -1,10 +1,13 @@
 package br.edu.infnet.lojas;
 
+import br.edu.infnet.lojas.client.EnderecoClient;
 import br.edu.infnet.lojas.model.domain.Bicicleta;
 import br.edu.infnet.lojas.model.domain.Carro;
 import br.edu.infnet.lojas.model.domain.Endereco;
 import br.edu.infnet.lojas.model.domain.Loja;
+import br.edu.infnet.lojas.model.repositoy.VeiculoRepository;
 import br.edu.infnet.lojas.model.service.LojaService;
+import br.edu.infnet.lojas.model.service.VeiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -21,6 +24,9 @@ public class Loader implements ApplicationRunner {
     @Autowired
     private LojaService lojaService;
 
+    @Autowired
+    private VeiculoService veiculoService;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
         FileReader file = new FileReader("Files/lojas.txt");
@@ -35,29 +41,41 @@ public class Loader implements ApplicationRunner {
 
             switch (campos[0].toUpperCase()) {
                 case "L":
-                    Endereco endereco = new Endereco();
-                    endereco.setCep(campos[3]);
-
                     loja = new Loja();
 
                     loja.setNome(campos[1]);
                     loja.setEmail(campos[2]);
-                    loja.setEndereco(endereco);
+                    loja.setEndereco(new Endereco(campos[3]));
 
-                    lojaService.incluir(loja);
+                    loja = lojaService.incluir(loja);
                     break;
                 case "C":
                     Carro carro = new Carro();
                     carro.setModelo(campos[1]);
+                    carro.setEstoque(Boolean.valueOf((campos[2])));
+                    carro.setPreco(Float.valueOf(campos[3]));
+                    carro.setPortas(Integer.valueOf(campos[4]));
+                    carro.setPlaca((campos[5]));
+
+                    carro.setLoja(loja);
 
                     loja.getVeiculos().add(carro);
+
+                    veiculoService.incluir(carro);
 
                     break;
                 case "B":
                     Bicicleta bicicleta = new Bicicleta();
                     bicicleta.setModelo(campos[1]);
+                    bicicleta.setEstoque(Boolean.valueOf((campos[2])));
+                    bicicleta.setPreco(Float.valueOf(campos[3]));
+                    bicicleta.setMarchas(Integer.valueOf(campos[4]));
+                    bicicleta.setFreioDisco(Boolean.valueOf(campos[5]));
+
+                    bicicleta.setLoja(loja);
 
                     loja.getVeiculos().add(bicicleta);
+                    veiculoService.incluir(bicicleta);
                     break;
                 default:
                     break;

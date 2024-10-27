@@ -1,9 +1,26 @@
 package br.edu.infnet.lojas.model.domain;
 
-public class Veiculo {
+import javax.persistence.*;
+
+@Entity
+@Table(name = "TVeiculo")
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Veiculo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @ManyToOne
+    @JoinColumn(name = "idLoja")
+    private Loja loja;
+
     private String modelo;
     private boolean estoque;
     private  float preco;
+
+    public Integer getId() {
+        return id;
+    }
 
     public String getModelo() {
         return modelo;
@@ -29,5 +46,11 @@ public class Veiculo {
         this.preco = preco;
     }
 
+    public Loja getLoja() {
+        return loja;
+    }
 
+    public void setLoja(Loja loja) {
+        this.loja = loja;
+    }
 }

@@ -19,7 +19,8 @@ public class Loja {
 
     @Transient
     private Endereco endereco;
-    @Transient
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Veiculo> veiculos;
 
     public Loja() {

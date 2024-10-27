@@ -1,5 +1,10 @@
 package br.edu.infnet.lojas.model.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "TBicicleta")
 public class Bicicleta extends Veiculo{
     private int marchas;
     private boolean freioDisco;
