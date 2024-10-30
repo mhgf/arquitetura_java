@@ -1,6 +1,15 @@
 package br.edu.infnet.lojas.model.domain;
 
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "TEndereco")
 public class Endereco {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private  Integer id;
+
     private String cep;
     private String logradouro;
     private String numero;
@@ -21,6 +30,10 @@ public class Endereco {
     @Override
     public String toString() {
         return "Endereço: " + this.cep;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public String getCep() {

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -34,6 +35,10 @@ public class LojaService {
     }
 
     public Collection<Loja> listar() {
-        return this.lojaMap.values();
+        return (Collection<Loja>) this.lojaRepository.findAll();
+    }
+
+    public List<Loja> obterPorNome(String nome) {
+        return  this.lojaRepository.findByNomeContaining(nome);
     }
 }

@@ -1,6 +1,9 @@
 package br.edu.infnet.lojas.model.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 
 import java.util.ArrayList;
@@ -17,10 +20,12 @@ public class Loja {
     private String nome;
     private String email;
 
-    @Transient
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "idEndereco")
     private Endereco endereco;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonManagedReference
     private List<Veiculo> veiculos;
 
     public Loja() {

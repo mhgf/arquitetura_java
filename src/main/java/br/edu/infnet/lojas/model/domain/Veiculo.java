@@ -1,5 +1,7 @@
 package br.edu.infnet.lojas.model.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,6 +14,7 @@ public abstract class Veiculo {
 
     @ManyToOne
     @JoinColumn(name = "idLoja")
+    @JsonBackReference
     private Loja loja;
 
     private String modelo;
