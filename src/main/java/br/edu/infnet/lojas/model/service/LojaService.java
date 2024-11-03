@@ -38,7 +38,21 @@ public class LojaService {
         return (Collection<Loja>) this.lojaRepository.findAll();
     }
 
+    public void excluir(Integer id){
+        this.lojaRepository.deleteById(id);
+    }
+
     public List<Loja> obterPorNome(String nome) {
         return  this.lojaRepository.findByNomeContaining(nome);
     }
+
+    public Loja obterPorId(Integer id) {
+        return  this.lojaRepository.findById(id).orElse(null);
+    }
+
+
+    public long obterQtde() {
+        return lojaRepository.count();
+    }
+
 }
