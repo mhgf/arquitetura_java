@@ -2,12 +2,11 @@ package br.edu.infnet.lojas.model.service;
 
 import br.edu.infnet.lojas.model.domain.Loja;
 import br.edu.infnet.lojas.model.repositoy.LojaRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class LojaService {
@@ -19,8 +18,6 @@ public class LojaService {
         this.localizadorService = localizadorService;
     }
 
-    private Map<String, Loja> lojaMap = new HashMap<>();
-
     public Loja incluir(Loja loja) {
 
         var cep = loja.getEndereco().getCep();
@@ -29,25 +26,24 @@ public class LojaService {
 
         loja.setEndereco(endereco);
 
-        lojaMap.put(loja.getNome(), loja);
-
         return lojaRepository.save(loja);
     }
 
     public Collection<Loja> listar() {
-        return (Collection<Loja>) this.lojaRepository.findAll();
+        return (Collection<Loja>) this.lojaRepository.findAll(Sort.by(Sort.Order.asc("nome")));
     }
 
-    public void excluir(Integer id){
+    public boolean excluir(Integer id) {
         this.lojaRepository.deleteById(id);
+        return true;
     }
 
     public List<Loja> obterPorNome(String nome) {
-        return  this.lojaRepository.findByNomeContaining(nome);
+        return this.lojaRepository.findByNomeContaining(nome, Sort.by(Sort.Order.asc("nome")));
     }
 
     public Loja obterPorId(Integer id) {
-        return  this.lojaRepository.findById(id).orElse(null);
+        return this.lojaRepository.findById(id).orElse(null);
     }
 
 

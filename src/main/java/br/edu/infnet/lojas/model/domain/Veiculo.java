@@ -3,6 +3,9 @@ package br.edu.infnet.lojas.model.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "TVeiculo")
@@ -17,9 +20,12 @@ public abstract class Veiculo {
     @JsonBackReference
     private Loja loja;
 
+    @NotBlank(message = "O modelo é obrigatório")
+    @Size(min = 2, max = 30, message = "O modelo deve ter entre 3 e 30 caracteres.")
     private String modelo;
     private boolean estoque;
-    private  float preco;
+    @DecimalMin(value = "1.0", message = "Preço deve ser maior que 1.0")
+    private float preco;
 
     public Integer getId() {
         return id;
